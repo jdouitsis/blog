@@ -1,7 +1,0 @@
-# Heading
-
-## Second heading
-
----
-
-**Bold**

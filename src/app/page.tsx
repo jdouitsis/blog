@@ -1,15 +1,14 @@
-import { GetStaticProps } from "next";
+import BlogList from "@/components/BlogList";
+import { readPosts } from "@/utils/readFiles";
 
-export default function Home() {
+export default async function Home() {
+  let files = readPosts();
+
   return (
     <main className="flex flex-col items-center justify-between p-24">
       <p>Welcome to my blog!</p>
+      <div>Main list of files</div>
+      <BlogList posts={files} />
     </main>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  // let files = await import("../data");
-
-  return { props: {} };
-};
