@@ -1,11 +1,18 @@
-import PostData from "@/app/PostData";
+"use client";
+import { BlogPost } from "@/app/post/[postSlug]/page";
+import BlogList from "@/components/BlogList";
 import LineText from "@/components/LineText";
-import { getPosts } from "@/utils/readFiles";
+import MainFiltering from "@/components/MainFiltering";
+import RecentPosts from "@/components/RecentPosts";
 import Image from "next/image";
+// import { useParams } from "next/navigation";
+// import { useState } from "react";
 
-export default async function Home() {
-  let files = getPosts();
+type ClientPage = {
+  files: BlogPost[];
+};
 
+export default async function ClientPage({ files }: ClientPage) {
   return (
     <main className="flex flex-col items-center justify-between pt-5 pb-24 px-14">
       <div className="flex flex-col items-center w-full">
@@ -29,7 +36,10 @@ export default async function Home() {
           </p>
         </div>
       </div>
-      <PostData files={files} />
+      <RecentPosts />
+      {/* {searchValue} */}
+      {/* <MainFiltering searchValue={searchValue} /> */}
+      <BlogList posts={files} />
     </main>
   );
 }

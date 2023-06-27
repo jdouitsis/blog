@@ -1,29 +1,24 @@
 "use client";
-
-import { BlogPost } from "@/app/post/[slug]/page";
+import { BlogPost } from "@/app/post/[postSlug]/page";
 import PostCard from "@/components/PostCard";
-import { useRouter } from "next/navigation";
 
 type BlogList = {
   posts: Array<BlogPost>;
 };
 
 export default function BlogList({ posts }: BlogList) {
-  const router = useRouter();
-
-  const handlePostCardClick = (name: string) => {
-    router.push(name);
-  };
-
   return (
-    <div className="w-full mt-10">
-      <p>List of posts!</p>
-      <hr className="my-3" />
-      {posts.map((post) => {
-        return (
-          <PostCard key={post.slug} onClick={handlePostCardClick} post={post} />
-        );
-      })}
+    <div className="w-full">
+      <div className="flex flex-col w-full max-w-3xl mx-auto">
+        {posts.map((post) => {
+          return <PostCard key={post.postSlug} post={post} />;
+        })}
+        {posts.length == 0 && (
+          <div className="flex items-center justify-center w-full h-64">
+            There are no articles that match your search criteria
+          </div>
+        )}
+      </div>
     </div>
   );
 }

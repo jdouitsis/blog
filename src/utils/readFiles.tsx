@@ -2,7 +2,7 @@ import { dirname, join } from "path";
 import fs from "fs";
 import matter from "gray-matter";
 import { fileURLToPath } from "url";
-import { BlogPost } from "@/app/post/[slug]/page";
+import { BlogPost } from "@/app/post/[postSlug]/page";
 
 const postsDir = join(dirname(fileURLToPath(import.meta.url)), "../posts");
 const delimiter = "__";
@@ -18,10 +18,12 @@ export function desensitizeName(name: string): string {
 }
 
 export function readPostByFilename(filename: string): BlogPost {
+  let matterResults = matter(fs.readFileSync(join(postsDir, filename), "utf8"));
   return {
-    ...matter(fs.readFileSync(join(postsDir, filename), "utf8")),
+    content: matterResults.content,
+    data: matterResults.data,
     filename,
-    slug: sanitiesFilename(filename),
+    postSlug: sanitiesFilename(filename),
   };
 }
 
@@ -29,6 +31,6 @@ export function readPostByName(name: string): BlogPost {
   return readPostByFilename(desensitizeName(name));
 }
 
-export function readPosts(): BlogPost[] {
+export function getPosts(): BlogPost[] {
   return fs.readdirSync(postsDir).map(readPostByFilename);
 }
